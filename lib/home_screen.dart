@@ -8,9 +8,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> attachedFiles = []; // Lista de arquivos anexados
-  List<String> historyFiles = []; // Lista para armazenar arquivos anexados anteriormente
+  List<String> attachedFiles = []; // Arquivos anexados
+  List<String> historyFiles = []; // Histórico de arquivos
 
+  // Selecionar arquivos
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Limpar anexos
   void _clearAttachments() {
     setState(() {
       historyFiles.addAll(attachedFiles); // Salva no histórico antes de limpar
@@ -29,16 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Remover do histórico
   void _removeFromHistory(String fileName) {
     setState(() {
       historyFiles.remove(fileName); // Remove apenas do histórico
     });
   }
 
+  // Restaurar arquivos
   void _restoreFile(String fileName) {
     setState(() {
-      attachedFiles.add(fileName); // Add novamente à lista de anexos
-      historyFiles.remove(fileName); // Remove do histórico
+      attachedFiles.add(fileName); // Add novamente à lista 
+      historyFiles.remove(fileName); // Remove permanentemente 
     });
   }
 
@@ -56,12 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.account_circle, color: Colors.white),
             onPressed: () {
-              // Null
+              // Null (perfil do usuário sem funcionalidade)
             },
           ),
           IconButton(
             icon: const Icon(Icons.exit_to_app, color: Colors.white),
             onPressed: () {
+              // Confirmação de logoff
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -118,13 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(flex: 2, child: _buildUploadSection()),
+                      Expanded(flex: 2, child: _buildUploadSection()), // Upload
                       const SizedBox(width: 20),
-                      Expanded(flex: 3, child: _buildAttachedFiles()),
+                      Expanded(flex: 3, child: _buildAttachedFiles()), // Anexos
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _buildHistorySection(), // Histórico de arquivos anexados anteriormente
+                  _buildHistorySection(), // Histórico
                 ],
               ),
             ),
@@ -134,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //Widget do Menu
+  // Widget Menu Lateral
   Widget _buildMenuItem(IconData icon, String text) {
     return Column(
       children: [
@@ -145,12 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),
-        const Divider(color: Colors.grey), // Linha separadora
+        const Divider(color: Colors.grey), // Separação por linha
       ],
     );
   }
 
-  //Widget do Upload de arquivos
+  // Box de upload
   Widget _buildUploadSection() {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -185,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 10),
 
-        // Lista de arquivos anexados
         attachedFiles.isEmpty
             ? const Text("Nenhum arquivo anexado",
                 style: TextStyle(color: Colors.grey))
@@ -196,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         const SizedBox(height: 20),
 
-        // Botão de "Limpar anexos" e "Enviar"
+        // Botões
         Row(
           children: [
             ElevatedButton(
@@ -213,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(width: 10),
             ElevatedButton(
-              onPressed: () {}, // Implementaremos a lógica de envio depois
+              onPressed: () {}, 
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child:
                   const Text("Enviar", style: TextStyle(color: Colors.white)),
@@ -224,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget para Adicionar Histórico na tela
+  // Histórico
   Widget _buildHistorySection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Arquivo no histórico (layout)
   Widget _buildHistoryFileItem(String fileName) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -289,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget para exibir arquivos
+  // Layout exibição de arquivos
   Widget _buildFileItem(String fileName, {bool isHistory = false}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -309,7 +314,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Ícone + nome do arquivo
           Row(
             children: [
               const Icon(Icons.attach_file, size: 20, color: Colors.blueAccent),
@@ -318,11 +322,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-          // Botão de ação (Excluir ou restaurar)
-          // Ícones de ação (Excluir ou Restaurar/Excluir Permanente)
           Row(
             children: [
-              // Se o arquivo estiver no histórico, mostrar botão de restaurar 🔄
+              // Botão de restaurar se o arquivo estiver no histórico
               if (isHistory)
                 IconButton(
                   icon: const Icon(Icons.restore, color: Colors.green),
@@ -333,19 +335,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
 
-              // Botão de excluir ❌ (Remove do histórico ou anexos)
+              // Botão de excluir
               IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
                   setState(() {
                     if (isHistory) {
                       _removeFromHistory(
-                          fileName); // ❌ Excluir do histórico permanentemente
+                          fileName); // Excluir do histórico permanentemente
                     } else {
                       historyFiles.add(
-                          fileName); // ✅ Adicionar ao histórico antes de remover
+                          fileName); // Adicionar ao histórico antes de remover
                       attachedFiles
-                          .remove(fileName); // ✅ Remover da lista de anexados
+                          .remove(fileName); // Remover da lista de anexados
                     }
                   });
                 },
