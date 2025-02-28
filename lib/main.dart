@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false, // Removendo a faixa de debug
-      home: LoginScreen(),
+      home: LoginScreen(), // Primeira tela (Login)
     );
   }
 }

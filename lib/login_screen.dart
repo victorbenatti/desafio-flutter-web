@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,21 +16,25 @@ class _LoginScreenState extends State<LoginScreen> {
       // Simulação de autenticação
       if (_emailController.text == "usuario@email.com" &&
           _passwordController.text == "12345678") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Login bem sucedido!"),
-            backgroundColor: Colors.green,
-          ),
+        // Navega para a Home Screen e remove a tela de login da pilha de navegação
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("E-mail ou senha incorretos"),
-            backgroundColor: Colors.red,
-          ),
-        );
+        _showMessage("E-mail ou senha incorretos", Colors.red);
       }
     }
+  }
+
+  // Função para exibir mensagens na tela
+  void _showMessage(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
   }
 
   @override
