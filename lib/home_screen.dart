@@ -9,7 +9,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<String> attachedFiles = []; // Lista de arquivos anexados
-  List<String> historyFiles = []; // Lista para armazenar arquivos anexados anteriormente
+  List<String> historyFiles =
+      []; // Lista para armazenar arquivos anexados anteriormente
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -62,11 +63,31 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.exit_to_app, color: Colors.white),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        LoginScreen()), // Volta para a tela de login
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Sair"),
+                  content: const Text("Tem certeza que deseja sair?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.pop(context), // Fecha a box de diálogo
+                      child: const Text("Cancelar"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      },
+                      child: const Text("Sair",
+                          style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
               );
             },
           ),

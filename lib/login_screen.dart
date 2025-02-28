@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Simulação de autenticação
       if (_emailController.text == "usuario@email.com" &&
           _passwordController.text == "12345678") {
-        // Navega para a Home Screen e remove a tela de login da pilha de navegação
+        // Navega para a Home Screen ao efetuar o login
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Função para exibir mensagens na tela
+  // Função para exibir mensagem na tela
   void _showMessage(String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Row(
         children: [
-          // Parte do formulário à esquerda
+          // Parte do login (esquerda)
           Expanded(
             flex: 2,
             child: Padding(
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed:
-                              _validateAndLogin, // Agora chama a função correta
+                              _validateAndLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             shape: RoundedRectangleBorder(
@@ -136,14 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // Parte da direita (Imagem de fundo com gradiente)
+          // Parte da imagem (direita)
           Expanded(
             flex: 3,
             child: Stack(
               fit: StackFit.expand,
               children: [
                 Image.asset(
-                  "assets/login_bg.jpg", // Coloque sua imagem na pasta assets
+                  "assets/login_bg.jpg",
                   fit: BoxFit.cover,
                 ),
                 Container(
