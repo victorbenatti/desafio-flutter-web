@@ -9,8 +9,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<String> attachedFiles = []; // Lista de arquivos anexados
-  List<String> historyFiles =
-      []; // Lista para armazenar arquivos anexados anteriormente
+  List<String> historyFiles = []; // Lista para armazenar arquivos anexados anteriormente
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
